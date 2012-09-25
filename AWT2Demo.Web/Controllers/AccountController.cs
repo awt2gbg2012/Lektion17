@@ -11,6 +11,7 @@ using DotNetOpenAuth.OpenId.RelyingParty;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using AWT2Demo.Domain.Repositories;
+using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 
 namespace AWT2Demo.Web.Controllers
 {
@@ -65,12 +66,12 @@ namespace AWT2Demo.Web.Controllers
                     Identifier.Parse(loginIdentifier));
 
                 // Require some additional data
-                request.AddExtension(new ClaimsRequest
-                {
-                    BirthDate = DemandLevel.NoRequest,
-                    Email = DemandLevel.Require,
-                    FullName = DemandLevel.Require
-                });
+                var fetch = new FetchRequest();
+                fetch.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
+                fetch.Attributes.AddOptional(WellKnownAttributes.Name.Alias);
+                fetch.Attributes.AddRequired(WellKnownAttributes.Name.First);
+                fetch.Attributes.AddRequired(WellKnownAttributes.Name.Last);
+                request.AddExtension(fetch);
 
                 var returnUrl = Request.QueryString["returnUrl"] != null
                                     ? Request.QueryString["returnUrl"]
