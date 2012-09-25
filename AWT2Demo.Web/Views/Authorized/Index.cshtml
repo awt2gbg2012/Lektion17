@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Admin", "Admin", "Authorized")
+</p>
+This page should only be viewed by authorized users
+<p>
+    @if (User.Identity.IsAuthenticated)
+    { 
+        @Html.ActionLink("Details", "UserDetails", new { id = 1 })
+    }
+</p>
