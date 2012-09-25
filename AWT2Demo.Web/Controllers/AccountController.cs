@@ -212,6 +212,25 @@ namespace AWT2Demo.Web.Controllers
             return View();
         }
 
+        private AWT2Demo.Domain.Entities.User CreateUserFromOpenIDResponse(IAuthenticationResponse response)
+        {
+            var fetch = response.GetExtension<FetchResponse>();
+            string email = String.Empty;
+            string firstName = String.Empty;
+            string lastName = String.Empty;
+            if (fetch != null)
+            {
+                email = fetch.GetAttributeValue(WellKnownAttributes.Contact.Email);
+                firstName = fetch.GetAttributeValue(WellKnownAttributes.Name.First);
+                lastName = fetch.GetAttributeValue(WellKnownAttributes.Name.Last);
+            }
+            return _userRepo.AddUserForClaimedIdentifier(response.ClaimedIdentifier,
+                                email,
+                                firstName,
+                                lastName);
+        }
+
+
         #region Status Codes
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
