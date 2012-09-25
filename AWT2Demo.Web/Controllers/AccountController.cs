@@ -10,11 +10,17 @@ using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
+using AWT2Demo.Domain.Repositories;
 
 namespace AWT2Demo.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private IUserRepository _userRepo;
+        public AccountController(IUserRepository userRepo)
+        {
+            _userRepo = userRepo;
+        }
 
         public ActionResult LogOn()
         {
