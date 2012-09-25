@@ -33,8 +33,10 @@ namespace AWT2Demo.Web.Controllers
                 switch (response.Status)
                 {
                     case AuthenticationStatus.Authenticated:
-                        FormsAuthentication.RedirectFromLoginPage(
-                            response.ClaimedIdentifier, false);
+                        var user = _userRepo.FindUserByClaimedIdentifier(response.ClaimedIdentifier);
+                        if (null == user)
+                            user = CreateUserFromOpenIDResponse(response);
+                        FormsAuthentication.RedirectFromLoginPage(user.FriendlyIdentifier, false);
                         break;
                     case AuthenticationStatus.Canceled:
                         ModelState.AddModelError("loginIdentifier",
