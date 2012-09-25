@@ -29,6 +29,7 @@ namespace AWT2Demo.Web.Infrastructure
         private void AddBindings()
         {
             ninjectKernel.Bind<IProductRepository>().To<ProductRepository>();
+            ninjectKernel.Bind<IUserRepository>().To<UserRepository>();
             ninjectKernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>));
         }
     }
