@@ -66,6 +66,11 @@ namespace AWT2Demo.Web.Controllers
                     FullName = DemandLevel.Require
                 });
 
+                var returnUrl = Request.QueryString["returnUrl"] != null
+                                    ? Request.QueryString["returnUrl"]
+                                    : Url.Action("Index", "Home");
+                request.AddCallbackArguments("returnUrl", returnUrl);
+
                 return request.RedirectingResponse.AsActionResult();
             }
         }
